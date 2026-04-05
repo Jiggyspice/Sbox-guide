@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S&box Complete Guide — Beginner to Intermediate</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #0d0d12;
+  --bg-secondary: #14141c;
+  --bg-card: #1a1a26;
+  --bg-code: #12121a;
+  --border: #2a2a3a;
+  --border-accent: #3d5afe;
+  --text-primary: #e8e8f0;
+  --text-secondary: #9898b0;
+  --text-muted: #6a6a82;
+  --accent: #76ff03;
+  --accent-dim: #2d4a0f;
+  --accent-blue: #3d5afe;
+  --accent-orange: #ff9100;
+  --accent-red: #ff5252;
+  --accent-purple: #b388ff;
+  --accent-cyan: #18ffff;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg-primary);
+}
+
+/* ---- SCROLLBAR ---- */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ---- LAYOUT ---- */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ---- HERO ---- */
+.hero {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding: 4rem 2rem;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 50% 80%, rgba(118, 255, 3, 0.06) 0%, transparent 50%),
+              radial-gradient(ellipse at 20% 20%, rgba(61, 90, 254, 0.04) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: 0.4rem 1.2rem;
+  background: var(--accent-dim);
+  border: 1px solid rgba(118, 255, 3, 0.2);
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.hero h1 .highlight {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin-bottom: 3rem;
+  font-weight: 300;
+  position: relative;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 2rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  position: relative;
+}
+
+.hero-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* ---- NAV / TOC ---- */
+.toc {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13, 13, 18, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.8rem 0;
+}
+
+.toc-inner {
+  display: flex;
+  gap: 0.3rem;
+  overflow-x: auto;
+  padding: 0 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  scrollbar-width: none;
+}
+
+.toc-inner::-webkit-scrollbar { display: none; }
+
+.toc a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+}
+
+.toc a:hover {
+  color: var(--accent);
+  background: rgba(118, 255, 3, 0.06);
+}
+
+/* ---- CHAPTERS ---- */
+.chapter {
+  padding: 5rem 0 3rem;
+  border-top: 1px solid var(--border);
+}
+
+.chapter:first-of-type { border-top: none; }
+
+.chapter-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 2.5rem 0 0.8rem;
+  color: var(--text-primary);
+}
+
+h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 2rem 0 0.6rem;
+  color: var(--accent-blue);
+}
+
+p { margin-bottom: 1rem; }
+
+p + p { margin-top: 0; }
+
+/* ---- CARDS ---- */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.card h4 {
+  margin: 0 0 0.5rem;
+  color: var(--accent);
+  font-size: 1rem;
+}
+
+.card p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+a.card {
+  text-decoration: none;
+  display: block;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+a.card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(118, 255, 3, 0.08);
+}
+
+a.card h4::after {
+  content: ' →';
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+a.card:hover h4::after {
+  opacity: 1;
+}
+
+/* ---- CODE ---- */
+pre {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  overflow-x: auto;
+  margin: 1.2rem 0;
+  position: relative;
+}
+
+pre::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 0.6rem;
+  right: 0.8rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+:not(pre) > code {
+  background: rgba(61, 90, 254, 0.12);
+  color: var(--accent-blue);
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+
+/* Syntax highlighting */
+.kw { color: #c792ea; }
+.ty { color: #82aaff; }
+.str { color: #c3e88d; }
+.cm { color: #546e7a; }
+.fn { color: #82aaff; }
+.num { color: #f78c6c; }
+.at { color: #ffcb6b; }
+.pr { color: #89ddff; }
+
+/* ---- TABLES ---- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2rem 0;
+  font-size: 0.9rem;
+}
+
+thead {
+  background: var(--bg-card);
+}
+
+th {
+  text-align: left;
+  padding: 0.8rem 1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--border);
+}
+
+td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+tr:hover td {
+  background: rgba(118, 255, 3, 0.02);
+}
+
+/* ---- CALLOUTS ---- */
+.callout {
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  margin: 1.5rem 0;
+  font-size: 0.92rem;
+}
+
+.callout-title {
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.callout.tip {
+  background: rgba(118, 255, 3, 0.06);
+  border-left: 3px solid var(--accent);
+}
+.callout.tip .callout-title { color: var(--accent); }
+
+.callout.warning {
+  background: rgba(255, 145, 0, 0.06);
+  border-left: 3px solid var(--accent-orange);
+}
+.callout.warning .callout-title { color: var(--accent-orange); }
+
+.callout.important {
+  background: rgba(255, 82, 82, 0.06);
+  border-left: 3px solid var(--accent-red);
+}
+.callout.important .callout-title { color: var(--accent-red); }
+
+.callout.note {
+  background: rgba(61, 90, 254, 0.06);
+  border-left: 3px solid var(--accent-blue);
+}
+.callout.note .callout-title { color: var(--accent-blue); }
+
+/* ---- IMAGE PLACEHOLDERS ---- */
+.img-placeholder {
+  background: var(--bg-card);
+  border: 2px dashed var(--border);
+  border-radius: 10px;
+  padding: 3rem 2rem;
+  text-align: center;
+  margin: 1.5rem 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.img-placeholder .label {
+  display: block;
+  font-weight: 600;
+  color: var(--accent-blue);
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+}
+
+/* ---- LISTS ---- */
+ul, ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+li {
+  margin-bottom: 0.4rem;
+  color: var(--text-secondary);
+}
+
+li strong {
+  color: var(--text-primary);
+}
+
+/* ---- SECTION DIVIDERS ---- */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 3rem 0;
+}
+
+/* ---- FOOTER ---- */
+.footer {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+  margin-top: 4rem;
+}
+
+/* ---- COMPARISON TABLE ---- */
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.comparison .col {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.2rem;
+}
+
+.comparison .col h4 {
+  margin: 0 0 0.8rem;
+  font-size: 0.9rem;
+}
+
+.comparison .col.unreal h4 { color: var(--accent-blue); }
+.comparison .col.sbox h4 { color: var(--accent); }
+
+.comparison .col p, .comparison .col li {
+  font-size: 0.85rem;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 700px) {
+  .hero h1 { font-size: 2.5rem; }
+  .comparison { grid-template-columns: 1fr; }
+  .card-grid { grid-template-columns: 1fr; }
+  .container { padding: 0 1.2rem; }
+}
+
+/* ---- ANIMATIONS ---- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chapter { animation: fadeUp 0.5s ease-out; }
+</style>
+</head>
+<body>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero">
+  <div class="hero-badge">Source 2 Engine &bull; C# &bull; Free to Create</div>
+  <h1>The Complete<br><span class="highlight">S&amp;Box</span> Guide</h1>
+  <p>Everything you need to know to start building games in S&amp;Box — from first launch to your first custom component and beyond.</p>
+  <div class="hero-meta">
+    <span>15 Chapters</span>
+    <span>Engine Version: April 2026</span>
+    <span>Beginner → Intermediate</span>
+  </div>
+</section>
+
+<!-- ==================== TOC ==================== -->
+<nav class="toc">
+  <div class="toc-inner">
+    <a href="#ch1">What Is S&amp;Box</a>
+    <a href="#ch2">Installation</a>
+    <a href="#ch3">The Editor</a>
+    <a href="#ch4">Core Concepts</a>
+    <a href="#ch5">Your First Component</a>
+    <a href="#ch6">Input System</a>
+    <a href="#ch7">Physics &amp; Movement</a>
+    <a href="#ch8">Networking</a>
+    <a href="#ch9">Custom Assets</a>
+    <a href="#ch10">AnimGraph</a>
+    <a href="#ch11">Razor UI</a>
+    <a href="#ch12">Hammer Maps</a>
+    <a href="#ch13">Advanced Networking</a>
+    <a href="#ch14">Performance</a>
+    <a href="#ch15">Resources</a>
+  </div>
+</nav>
+
+<!-- ==================== CONTENT ==================== -->
+<main class="container">
+
+<!-- ==================== CHAPTER 1 ==================== -->
+<section class="chapter" id="ch1">
+  <div class="chapter-number">Chapter 01</div>
+  <h2>What Is S&amp;Box?</h2>
+
+  <p>S&amp;Box is a game creation platform built on Valve's <strong>Source 2 engine</strong> — the same technology behind Half-Life: Alyx, Counter-Strike 2, and Deadlock. Created by Facepunch (the studio behind Garry's Mod and Rust), it gives you access to a professional-grade engine with C# scripting, a modern editor, and built-in multiplayer.</p>
+
+  <p>Think of it as a next-generation successor to Garry's Mod, but designed for creating standalone games — not just mods. Since March 2026, Facepunch has a deal with Valve allowing developers to export standalone games that ship on Steam with their own store page, royalty-free.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>Source 2 Rendering</h4>
+      <p>PBR materials, GPU ray-traced baked lighting (VRAD3), and the same visual quality as Half-Life: Alyx. Your games look stunning out of the box.</p>
+    </div>
+    <div class="card">
+      <h4>C# Scripting</h4>
+      <p>Write all gameplay code in modern C# with hot-reload — change code, save, and see results instantly without restarting the game.</p>
+    </div>
+    <div class="card">
+      <h4>Built-in Multiplayer</h4>
+      <p>Steam networking with NAT traversal, lobbies, and up to 64 players. Add <code>[Sync]</code> to a property and it replicates automatically.</p>
+    </div>
+    <div class="card">
+      <h4>Standalone Export</h4>
+      <p>Ship your game on Steam with its own store page. Valve takes their standard Steam cut — no additional engine royalties.</p>
+    </div>
+  </div>
+
+  <h3>Coming from Unreal Engine?</h3>
+  <p>Many concepts translate directly, just with different names:</p>
+
+  <table>
+    <thead>
+      <tr><th>Unreal Engine</th><th>S&amp;Box</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Actor</td><td>GameObject</td></tr>
+      <tr><td>ActorComponent</td><td>Component</td></tr>
+      <tr><td>Blueprint</td><td>C# Component (or ActionGraph)</td></tr>
+      <tr><td>Level / Map</td><td>Scene</td></tr>
+      <tr><td>UMG Widget</td><td>Razor UI Panel</td></tr>
+      <tr><td>UPROPERTY(Replicated)</td><td>[Sync]</td></tr>
+      <tr><td>UFUNCTION(Server)</td><td>[Rpc.Host]</td></tr>
+      <tr><td>Character Movement</td><td>PlayerController / CharacterController</td></tr>
+      <tr><td>Content Browser</td><td>Asset Browser</td></tr>
+      <tr><td>Details Panel</td><td>Inspector</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ==================== CHAPTER 2 ==================== -->
+<section class="chapter" id="ch2">
+  <div class="chapter-number">Chapter 02</div>
+  <h2>Installation &amp; Setup</h2>
+
+  <p>Getting started with S&amp;Box takes about 5 minutes:</p>
+
+  <ol>
+    <li><strong>Install S&amp;Box</strong> from Steam (search "s&amp;box" in the Steam store)</li>
+    <li><strong>Launch S&amp;Box</strong> — it will download the latest engine and tools</li>
+    <li><strong>Install a code editor</strong> — Visual Studio Code, JetBrains Rider, or Visual Studio all work. Rider has the best C# experience, but VS Code is free and works great</li>
+    <li><strong>Create a new project</strong> — from the S&amp;Box launcher, create a new project using the Starter template</li>
+  </ol>
+
+  <div class="callout tip">
+    <div class="callout-title">Tip</div>
+    When you first open a project, you'll see a minimal scene with just a Main Camera and Directional Light. This is intentional — S&amp;Box gives you a blank canvas rather than a cluttered template.
+  </div>
+</section>
+
+<!-- ==================== CHAPTER 3 ==================== -->
+<section class="chapter" id="ch3">
+  <div class="chapter-number">Chapter 03</div>
+  <h2>The Editor</h2>
+
+  <p>S&amp;Box's editor is where you build your game. Here's what you're looking at:</p>
+
+  <div class="img-placeholder">
+    <span class="label">Screenshot: Editor Overview</span>
+    Add an annotated screenshot of the full editor layout here
+  </div>
+
+  <h3>The Five Main Panels</h3>
+
+  <table>
+    <thead>
+      <tr><th>Panel</th><th>Location</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Hierarchy</strong></td><td>Left</td><td>Lists every GameObject in your scene in a tree view. Select, rename, drag to reparent.</td></tr>
+      <tr><td><strong>3D Viewport</strong></td><td>Center</td><td>Visual preview of your scene. Navigate with right-click + WASD, scroll to zoom.</td></tr>
+      <tr><td><strong>Inspector</strong></td><td>Right</td><td>Shows the properties of whatever you've selected — Transform, Components, and their settings.</td></tr>
+      <tr><td><strong>Asset Browser</strong></td><td>Bottom</td><td>Browse your project files, libraries, and cloud assets. Drag assets into the scene.</td></tr>
+      <tr><td><strong>Console</strong></td><td>Bottom tab</td><td>Shows logs, warnings, and errors. Your <code>Log.Info()</code> messages appear here.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Top Menu Bar</h3>
+
+  <p>The menu bar gives you access to all the engine's tools:</p>
+
+  <table>
+    <thead>
+      <tr><th>Menu</th><th>Key Contents</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>File</strong></td><td>New/Open/Save scenes and projects</td></tr>
+      <tr><td><strong>Tools</strong></td><td>Hammer (map editor), Material Editor, Model Editor, <strong>AnimGraph Editor</strong>, Shader Graph, Hotspot Editor, Sprite Editor</td></tr>
+      <tr><td><strong>Settings</strong></td><td>Project Settings (cog icon in top-right) — physics, input, networking config</td></tr>
+      <tr><td><strong>Debug</strong></td><td>Show Physics Debug, Show Hitbox Debug, Input Debugger, GPU info</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Creating GameObjects</h3>
+
+  <p>Right-click in the Hierarchy to see the Create menu:</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>3D Objects</h4>
+      <p>Cube, Sphere, Plane, Decal, Line, Sprite, Text, Terrain</p>
+    </div>
+    <div class="card">
+      <h4>Lighting</h4>
+      <p>Sun (directional), Point Light, Spot Light, Indirect Light Volume</p>
+    </div>
+    <div class="card">
+      <h4>Audio</h4>
+      <p>Listener, Sound Point, Soundscape</p>
+    </div>
+    <div class="card">
+      <h4>Environment</h4>
+      <p>2D Skybox, Cubemap Fog, Gradient Fog, Volumetric Fog, Envmap Probe</p>
+    </div>
+    <div class="card">
+      <h4>Effects</h4>
+      <p>Burst, Smoke, and Spray particle presets</p>
+    </div>
+    <div class="card">
+      <h4>Essentials</h4>
+      <p>Camera, Player Controller, Empty, UI (Screen / World)</p>
+    </div>
+  </div>
+
+  <h3>Project Settings</h3>
+
+  <p>Click the <strong>cog icon</strong> in the top-right corner to open Project Settings. The key sections:</p>
+
+  <table>
+    <thead>
+      <tr><th>Section</th><th>What You Configure</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Game Setup</strong></td><td>Startup Scene, Server Startup Scene, System Scene, Launch Mode</td></tr>
+      <tr><td><strong>Physics</strong></td><td>Fixed Update Frequency (default: <strong>50 Hz</strong>), Sub Steps, Collision Rules matrix</td></tr>
+      <tr><td><strong>Input</strong></td><td>Action bindings (keyboard, gamepad, VR), custom actions</td></tr>
+      <tr><td><strong>Networking</strong></td><td>Max players (up to <strong>64</strong>), update rate (<strong>30 Hz</strong>), client permissions</td></tr>
+      <tr><td><strong>Game Exporting</strong></td><td>Standalone export settings, whitelist toggle</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ==================== CHAPTER 4 ==================== -->
+<section class="chapter" id="ch4">
+  <div class="chapter-number">Chapter 04</div>
+  <h2>Core Concepts</h2>
+
+  <h3>GameObjects &amp; Components</h3>
+
+  <p>Everything in S&amp;Box is built from two primitives:</p>
+
+  <ul>
+    <li><strong>GameObject</strong> — a container. It has a Transform (position, rotation, scale) and holds Components. On its own, it does nothing.</li>
+    <li><strong>Component</strong> — the logic. A C# class that attaches to a GameObject and gives it behavior. A Model Renderer makes it visible. A Rigid Body makes it physical. Your custom code makes it do whatever you want.</li>
+  </ul>
+
+  <p>You build game entities by combining Components on GameObjects. A player character might have: a CharacterController (physics), a SkinnedModelRenderer (visuals), a CombatController (your custom combat logic), and a HealthComponent (your custom health system). Each piece is independent and reusable.</p>
+
+  <h3>Scenes</h3>
+
+  <p>A Scene is a complete game level or environment. It contains a hierarchy of GameObjects. You set your <strong>Startup Scene</strong> in Project Settings — that's what loads when the game launches (typically your main menu).</p>
+
+  <p>You can load scenes at runtime with <code>Scene.Load()</code>, and you can have a <strong>System Scene</strong> that persists across scene changes (useful for game managers, audio systems, etc.).</p>
+
+  <h3>Prefabs</h3>
+
+  <p>A Prefab is a saved, reusable GameObject template. You build a GameObject with all its components and children, right-click it in the Hierarchy, and select <strong>"Create New Prefab"</strong>. Now you can spawn copies of it anywhere — in the editor or from code at runtime.</p>
+
+  <p>Prefabs are essential for anything you spawn dynamically: player characters, projectiles, pickups, enemies, effects.</p>
+
+  <pre data-lang="C#"><code><span class="cm">// Spawn a prefab from code</span>
+<span class="kw">var</span> instance = MyPrefab.<span class="fn">Clone</span>( spawnPosition );
+</code></pre>
+
+  <h3>The Component Lifecycle</h3>
+
+  <p>When your component runs, the engine calls these methods in order:</p>
+
+  <table>
+    <thead>
+      <tr><th>Method</th><th>When It's Called</th><th>Use It For</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>OnAwake()</code></td><td>Once, when the component is created</td><td>Cache references, initialize state</td></tr>
+      <tr><td><code>OnStart()</code></td><td>Once, after all components have awakened</td><td>Logic that depends on other components being ready</td></tr>
+      <tr><td><code>OnUpdate()</code></td><td>Every frame</td><td>Input handling, visual updates, UI</td></tr>
+      <tr><td><code>OnFixedUpdate()</code></td><td>Every physics tick (50 Hz)</td><td>Physics, movement, consistent simulation</td></tr>
+      <tr><td><code>OnEnabled()</code></td><td>When the component is enabled</td><td>Restart logic, subscribe to events</td></tr>
+      <tr><td><code>OnDisabled()</code></td><td>When the component is disabled</td><td>Cleanup, unsubscribe from events</td></tr>
+      <tr><td><code>OnDestroy()</code></td><td>When the component is destroyed</td><td>Final cleanup</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout note">
+    <div class="callout-title">Key Difference: OnUpdate vs OnFixedUpdate</div>
+    <code>OnUpdate()</code> runs every frame — the rate varies with framerate (60fps = 60 calls/sec, 144fps = 144 calls/sec). Use it for input and visuals.<br><br>
+    <code>OnFixedUpdate()</code> runs at a fixed rate (50 Hz by default) regardless of framerate. Use it for physics and movement so your game behaves consistently on all hardware.
+  </div>
+</section>
+
+<!-- ==================== CHAPTER 5 ==================== -->
+<section class="chapter" id="ch5">
+  <div class="chapter-number">Chapter 05</div>
+  <h2>Your First Component</h2>
+
+  <p>Here's where the real fun begins. Let's create a custom component from scratch.</p>
+
+  <h3>Step 1: Create the File</h3>
+
+  <p>Navigate to your project's <code>Code</code> folder in the Asset Browser (or in your file system). Create a new file called <code>HelloWorld.cs</code>.</p>
+
+  <h3>Step 2: Write the Code</h3>
+
+  <pre data-lang="C#"><code><span class="kw">using</span> Sandbox;
+
+<span class="kw">public sealed class</span> <span class="ty">HelloWorld</span> : <span class="ty">Component</span>
+{
+    <span class="cm">// This appears as an editable field in the Inspector</span>
+    [<span class="at">Property</span>] <span class="kw">public string</span> Message { <span class="kw">get</span>; <span class="kw">set</span>; } = <span class="str">"Hello S&amp;Box!"</span>;
+
+    <span class="kw">protected override void</span> <span class="fn">OnStart</span>()
+    {
+        Log.<span class="fn">Info</span>( Message );
+    }
+
+    <span class="kw">protected override void</span> <span class="fn">OnUpdate</span>()
+    {
+        <span class="kw">if</span> ( Input.<span class="fn">Pressed</span>( <span class="str">"Jump"</span> ) )
+        {
+            Log.<span class="fn">Info</span>( <span class="str">"I pressed jump!"</span> );
+        }
+    }
+}
+</code></pre>
+
+  <h3>Step 3: Add It to a GameObject</h3>
+
+  <ol>
+    <li>Save the file — S&amp;Box <strong>hot-reloads</strong> automatically</li>
+    <li>Select any GameObject in the Hierarchy</li>
+    <li>In the Inspector, click the green <strong>"+ Add Component"</strong> button</li>
+    <li>Search for "HelloWorld" — your component appears!</li>
+    <li>Click it to add it</li>
+  </ol>
+
+  <h3>Step 4: Press Play</h3>
+
+  <p>Hit the Play button at the top of the viewport. Check the Console tab at the bottom — you should see your message printed. Press Space and watch it print again.</p>
+
+  <div class="img-placeholder">
+    <span class="label">Screenshot: Your component working</span>
+    Add a screenshot showing the console output with "Hello S&amp;Box!" and "I pressed jump!" messages
+  </div>
+
+  <div class="callout tip">
+    <div class="callout-title">Understanding [Property]</div>
+    The <code>[Property]</code> attribute is what makes a field appear in the Inspector. Without it, the field exists in code but you can't see or edit it in the editor. You can use <code>[Property]</code> on strings, floats, ints, bools, Vector3s, GameObjects, Components, Models, and more.
+  </div>
+
+  <h3>A More Useful Example</h3>
+
+  <p>Here's a component that actually does something visible — it spins a GameObject:</p>
+
+  <pre data-lang="C#"><code><span class="kw">using</span> Sandbox;
+
+<span class="kw">public sealed class</span> <span class="ty">Spinner</span> : <span class="ty">Component</span>
+{
+    [<span class="at">Property</span>] <span class="kw">public float</span> Speed { <span class="kw">get</span>; <span class="kw">set</span>; } = <span class="num">90f</span>;
+
+    <span class="kw">protected override void</span> <span class="fn">OnUpdate</span>()
+    {
+        Transform.LocalRotation *= Rotation.<span class="fn">FromYaw</span>( Speed * Time.Delta );
+    }
+}
+</code></pre>
+
+  <p>Add this to a Cube, press Play, and watch it spin. Change the Speed value in the Inspector while the game is running — it updates in real time.</p>
+</section>
+
+<!-- ==================== CHAPTER 6 ==================== -->
+<section class="chapter" id="ch6">
+  <div class="chapter-number">Chapter 06</div>
+  <h2>Input System</h2>
+
+  <p>S&amp;Box uses a named action system. You define action names (like "Jump", "Attack1") in Project Settings, bind them to keys/buttons, then check them in code.</p>
+
+  <h3>Built-in Actions</h3>
+
+  <p>The starter project comes with these pre-configured:</p>
+
+  <table>
+    <thead>
+      <tr><th>Group</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Movement</strong></td><td>Forward, Backward, Left, Right, Jump, Run, Walk, Duck</td></tr>
+      <tr><td><strong>Actions</strong></td><td>Primary Attack, Secondary Attack, Reload, Use</td></tr>
+      <tr><td><strong>Inventory</strong></td><td>Slot #1-#0, Previous Slot, Next Slot</td></tr>
+      <tr><td><strong>Other</strong></td><td>View, Voice, Drop, Flashlight, Scoreboard, Menu, Chat</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Reading Input in Code</h3>
+
+  <pre data-lang="C#"><code><span class="kw">protected override void</span> <span class="fn">OnUpdate</span>()
+{
+    <span class="cm">// True on the exact frame the key is pressed</span>
+    <span class="kw">if</span> ( Input.<span class="fn">Pressed</span>( <span class="str">"Jump"</span> ) )
+        <span class="fn">DoJump</span>();
+
+    <span class="cm">// True every frame while the key is held down</span>
+    <span class="kw">if</span> ( Input.<span class="fn">Down</span>( <span class="str">"Run"</span> ) )
+        speed *= <span class="num">1.5f</span>;
+
+    <span class="cm">// True on the exact frame the key is released</span>
+    <span class="kw">if</span> ( Input.<span class="fn">Released</span>( <span class="str">"PrimaryAttack"</span> ) )
+        <span class="fn">FireProjectile</span>();
+
+    <span class="cm">// Analog input (movement)</span>
+    Vector3 move = Input.AnalogMove; <span class="cm">// X = right, Y = forward</span>
+}
+</code></pre>
+
+  <h3>Adding Custom Actions</h3>
+
+  <p>Open <strong>Project Settings → Input</strong> and click <strong>"Add New Action..."</strong> at the bottom. Give it a name (e.g., "Dodge"), assign a key binding, and you can immediately use <code>Input.Pressed("Dodge")</code> in your code.</p>
+</section>
+
+<!-- ==================== CHAPTER 7 ==================== -->
+<section class="chapter" id="ch7">
+  <div class="chapter-number">Chapter 07</div>
+  <h2>Physics &amp; Movement</h2>
+
+  <h3>Two Controller Types</h3>
+
+  <p>S&amp;Box offers two built-in ways to make a character move:</p>
+
+  <div class="comparison">
+    <div class="col sbox">
+      <h4>Player Controller</h4>
+      <p>The all-in-one solution. Includes movement, camera, animation, footsteps, and the Citizen model. Drop it in and press Play — you're walking around immediately.</p>
+      <p>Uses a <strong>modular MoveMode system</strong> — Walk (priority 0), Ladder (5), and Swim (10) come pre-installed. Higher priority modes override lower ones automatically.</p>
+      <p><strong>Best for:</strong> Rapid prototyping, games using the Citizen model, learning the engine.</p>
+    </div>
+    <div class="col sbox">
+      <h4>Character Controller</h4>
+      <p>The low-level physics capsule. You write all movement, camera, and animation code yourself. More work, total control.</p>
+      <p>Found under <strong>Add Component → Physics → Character Controller</strong>.</p>
+      <p><strong>Best for:</strong> Custom characters, precise control over movement feel, games with unique movement mechanics.</p>
+    </div>
+  </div>
+
+  <h3>Basic CharacterController Movement</h3>
+
+  <pre data-lang="C#"><code><span class="kw">using</span> Sandbox;
+
+<span class="kw">public sealed class</span> <span class="ty">PlayerMovement</span> : <span class="ty">Component</span>
+{
+    [<span class="at">Property</span>] <span class="kw">public float</span> WalkSpeed { <span class="kw">get</span>; <span class="kw">set</span>; } = <span class="num">200f</span>;
+    [<span class="at">Property</span>] <span class="kw">public float</span> JumpForce { <span class="kw">get</span>; <span class="kw">set</span>; } = <span class="num">350f</span>;
+
+    CharacterController cc;
+
+    <span class="kw">protected override void</span> <span class="fn">OnAwake</span>()
+    {
+        cc = Components.<span class="fn">Get</span>&lt;<span class="ty">CharacterController</span>&gt;();
+    }
+
+    <span class="kw">protected override void</span> <span class="fn">OnFixedUpdate</span>()
+    {
+        <span class="cm">// Build wish velocity from input</span>
+        <span class="kw">var</span> input = Input.AnalogMove;
+        <span class="kw">var</span> wishVel = <span class="kw">new</span> <span class="ty">Vector3</span>( input.x, input.y, <span class="num">0</span> ) * WalkSpeed;
+
+        <span class="cm">// Rotate movement to match camera direction</span>
+        wishVel *= Rotation.<span class="fn">FromYaw</span>( Camera.Rotation.Yaw() );
+
+        cc.<span class="fn">Accelerate</span>( wishVel );
+        cc.<span class="fn">ApplyFriction</span>( <span class="num">5f</span> );
+
+        <span class="cm">// Jump</span>
+        <span class="kw">if</span> ( Input.<span class="fn">Pressed</span>( <span class="str">"Jump"</span> ) &amp;&amp; cc.IsOnGround )
+            cc.<span class="fn">Punch</span>( Vector3.Up * JumpForce );
+
+        <span class="cm">// Gravity</span>
+        <span class="kw">if</span> ( !cc.IsOnGround )
+            cc.Velocity += Scene.PhysicsWorld.Gravity * Time.Delta;
+
+        cc.<span class="fn">Move</span>();
+    }
+}
+</code></pre>
+
+  <h3>Physics Components</h3>
+
+  <table>
+    <thead>
+      <tr><th>Component</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Rigid Body</strong></td><td>Makes a GameObject respond to physics (gravity, forces, collisions)</td></tr>
+      <tr><td><strong>Collider - Box/Capsule/Sphere/Hull/Plane</strong></td><td>Gives a shape for physics collision detection</td></tr>
+      <tr><td><strong>Model Collider</strong></td><td>Uses the model's mesh as the collision shape</td></tr>
+      <tr><td><strong>Model Physics</strong></td><td>Full physics simulation matching the model (for ragdolls, etc.)</td></tr>
+      <tr><td><strong>Physics Filter</strong></td><td>Controls which collision tags this object interacts with</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ==================== CHAPTER 8 ==================== -->
+<section class="chapter" id="ch8">
+  <div class="chapter-number">Chapter 08</div>
+  <h2>Networking Basics</h2>
+
+  <p>S&amp;Box networking is built around a <strong>host-authoritative model</strong> using Steam's networking stack. One player (or a dedicated server) is the host — they run the authoritative game simulation. All other players are clients.</p>
+
+  <h3>Key Concepts</h3>
+
+  <table>
+    <thead>
+      <tr><th>Concept</th><th>What It Does</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>NetworkMode.Object</code></td><td>Makes a GameObject networked — it can have an owner, synced properties, and RPCs</td></tr>
+      <tr><td><code>[Sync]</code></td><td>A property that automatically replicates from the owner to all other clients</td></tr>
+      <tr><td><code>[Rpc.Broadcast]</code></td><td>A method that runs on ALL clients when called</td></tr>
+      <tr><td><code>[Rpc.Host]</code></td><td>A method that runs ONLY on the host — use for game-critical actions</td></tr>
+      <tr><td><code>[Rpc.Owner]</code></td><td>A method that runs ONLY on the object's owner</td></tr>
+      <tr><td><code>IsProxy</code></td><td>Returns true if you DON'T own this object — check this before writing state</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Minimal Networked Component</h3>
+
+  <pre data-lang="C#"><code><span class="kw">public sealed class</span> <span class="ty">NetworkedHealth</span> : <span class="ty">Component</span>
+{
+    <span class="cm">// Automatically synced to all clients</span>
+    [<span class="at">Sync</span>] <span class="kw">public float</span> Health { <span class="kw">get</span>; <span class="kw">set</span>; } = <span class="num">100f</span>;
+
+    <span class="kw">protected override void</span> <span class="fn">OnUpdate</span>()
+    {
+        <span class="cm">// Only the owner can modify their own health</span>
+        <span class="kw">if</span> ( IsProxy ) <span class="kw">return</span>;
+
+        <span class="kw">if</span> ( Input.<span class="fn">Pressed</span>( <span class="str">"PrimaryAttack"</span> ) )
+            <span class="fn">RequestDamage</span>( <span class="num">10f</span> );
+    }
+
+    <span class="cm">// Runs on the host — validates and applies damage</span>
+    [<span class="at">Rpc.Host</span>]
+    <span class="kw">void</span> <span class="fn">RequestDamage</span>( <span class="kw">float</span> amount )
+    {
+        Health -= amount;
+        <span class="fn">BroadcastHitEffect</span>();
+    }
+
+    <span class="cm">// Runs on everyone — plays visual/audio effects</span>
+    [<span class="at">Rpc.Broadcast</span>]
+    <span class="kw">void</span> <span class="fn">BroadcastHitEffect</span>()
+    {
+        Sound.<span class="fn">FromWorld</span>( <span class="str">"hit_sound"</span>, WorldPosition );
+    }
+}
+</code></pre>
+
+  <div class="callout important">
+    <div class="callout-title">Golden Rule for Multiplayer</div>
+    Never trust the client. For any game-critical action (damage, scoring, item pickups), have the client REQUEST the action via <code>[Rpc.Host]</code>, validate it on the host, then broadcast the result. This prevents cheating.
+  </div>
+</section>
+
+<!-- ==================== CHAPTER 9 ==================== -->
+<section class="chapter" id="ch9">
+  <div class="chapter-number">Chapter 09</div>
+  <h2>Custom Assets Pipeline</h2>
+
+  <p>If you want your game to look unique, you need custom models, textures, and animations. S&amp;Box uses a <strong>Blender → FBX → ModelDoc</strong> pipeline to bring assets into the engine.</p>
+
+  <h3>The Pipeline Overview</h3>
+
+  <ol>
+    <li><strong>Model in Blender</strong> — create your mesh, UV unwrap, texture, rig with an armature</li>
+    <li><strong>Export as FBX</strong> — use specific settings for Source 2 compatibility</li>
+    <li><strong>Import into S&amp;Box</strong> — drop the FBX into your project's Assets folder</li>
+    <li><strong>Set up in ModelDoc</strong> — open the Model Editor, configure materials, LODs, hitboxes, physics, and animation sequences</li>
+    <li><strong>Assign an AnimGraph</strong> — connect an animation graph to drive the model's animations</li>
+  </ol>
+
+  <h3>Blender FBX Export Settings</h3>
+
+  <div class="callout warning">
+    <div class="callout-title">Critical Export Settings</div>
+    Getting these wrong is the #1 cause of broken imports. Follow these exactly.
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Setting</th><th>Value</th><th>Why</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Scale</td><td><strong>1.0</strong></td><td>Source 2 uses inches internally, but handles unit conversion</td></tr>
+      <tr><td>Apply Scalings</td><td><strong>FBX All</strong></td><td>Bakes transforms correctly</td></tr>
+      <tr><td>Forward Axis</td><td><strong>Y Forward</strong></td><td>Source 2 convention</td></tr>
+      <tr><td>Up Axis</td><td><strong>Z Up</strong></td><td>Source 2 convention</td></tr>
+      <tr><td>Apply Unit</td><td><strong>Checked</strong></td><td>Ensures scale is correct</td></tr>
+      <tr><td>Apply Transform</td><td><strong>Checked</strong></td><td>Bakes object transforms into mesh data</td></tr>
+      <tr><td>Armature → Add Leaf Bones</td><td><strong>Unchecked</strong></td><td>Leaf bones cause issues in Source 2</td></tr>
+      <tr><td>Bake Animation</td><td><strong>Checked</strong> (if exporting anims)</td><td>Bakes keyframes for Source 2 compatibility</td></tr>
+    </tbody>
+  </table>
+
+  <h3>ModelDoc</h3>
+
+  <p>ModelDoc is the <strong>Model Editor</strong> — open it from <strong>Tools → Model Editor</strong>. This is where you configure everything about your model after importing the FBX.</p>
+
+  <p>The ModelDoc outliner shows the model's structure:</p>
+
+  <ul>
+    <li><strong>BodyGroupList</strong> — body part variants (different heads, armor pieces)</li>
+    <li><strong>LODGroupList</strong> — Level of Detail meshes for different distances</li>
+    <li><strong>MaterialGroupList</strong> — material/skin variants</li>
+    <li><strong>RenderMeshList</strong> — the actual mesh data</li>
+    <li><strong>AnimationList</strong> — animation sequences imported from FBX files</li>
+    <li><strong>HitboxSetList</strong> — hitbox volumes for damage detection</li>
+    <li><strong>PhysicsShapeList</strong> — physics collision shapes</li>
+    <li><strong>AttachmentList</strong> — attachment points (weapon sockets, effect origins)</li>
+  </ul>
+
+  <h3>Textures &amp; Materials</h3>
+
+  <p>S&amp;Box uses <strong>PBR materials</strong> (Physically Based Rendering). For each model you typically need:</p>
+
+  <table>
+    <thead>
+      <tr><th>Texture Map</th><th>Purpose</th><th>Recommended Size</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Color / Albedo</strong></td><td>The base color of the surface</td><td>1024-2048 for characters</td></tr>
+      <tr><td><strong>Normal Map</strong></td><td>Fakes surface detail without extra geometry</td><td>1024-2048</td></tr>
+      <tr><td><strong>Roughness</strong></td><td>How shiny vs matte the surface is</td><td>512-1024</td></tr>
+      <tr><td><strong>Metalness</strong></td><td>Whether the surface is metallic</td><td>512-1024</td></tr>
+      <tr><td><strong>Ambient Occlusion</strong></td><td>Baked shadow detail in crevices</td><td>512-1024</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout tip">
+    <div class="callout-title">Texture Rules</div>
+    Always use <strong>power-of-two</strong> dimensions (256, 512, 1024, 2048, 4096). Maximum texture size is <strong>4096×4096</strong>. Use the smallest size that looks good — fewer pixels means faster loading and less VRAM usage.
+  </div>
+
+  <h3>Polygon Budgets</h3>
+
+  <table>
+    <thead>
+      <tr><th>Asset Type</th><th>Triangle Count</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Hero character (player)</td><td>10,000 – 30,000</td></tr>
+      <tr><td>First-person weapon</td><td>5,000 – 15,000</td></tr>
+      <tr><td>Third-person weapon</td><td>2,000 – 5,000</td></tr>
+      <tr><td>Large prop (furniture, vehicle)</td><td>3,000 – 10,000</td></tr>
+      <tr><td>Medium prop (barrel, crate)</td><td>500 – 2,000</td></tr>
+      <tr><td>Small prop (bottle, debris)</td><td>100 – 500</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ==================== CHAPTER 10 ==================== -->
+<section class="chapter" id="ch10">
+  <div class="chapter-number">Chapter 10</div>
+  <h2>AnimGraph Deep Dive</h2>
+
+  <p>AnimGraph is Source 2's animation state machine system — and it's the <strong>most complex subsystem</strong> you'll encounter. It's also the most powerful.</p>
+
+  <h3>The Key Paradigm Shift</h3>
+
+  <div class="callout important">
+    <div class="callout-title">AnimGraph Is Not Like Unreal</div>
+    In Unreal, you call <code>PlayMontage("Attack")</code> from code. In Source 2, <strong>code never directly tells the animation system what to play</strong>. Instead, your code sets <em>parameters</em> (speed, grounded, attacking), and the AnimGraph's internal logic decides what to play and how to blend. This decouples animation from code — powerful but requires a different mindset.
+  </div>
+
+  <h3>How It Works</h3>
+
+  <p>Every frame, the AnimGraph evaluates like a tree:</p>
+
+  <ol>
+    <li>Your C# code sets parameter values (<code>move_speed = 150</code>, <code>b_grounded = true</code>)</li>
+    <li>The graph evaluates from leaves to root</li>
+    <li>Each node blends, selects, or transforms animation poses</li>
+    <li>The final pose reaches the <strong>Final Pose</strong> root node and gets rendered</li>
+  </ol>
+
+  <h3>Node Types</h3>
+
+  <table>
+    <thead>
+      <tr><th>Node Type</th><th>What It Does</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Sequence</strong></td><td>Plays a single animation clip</td></tr>
+      <tr><td><strong>Blend Space 1D/2D</strong></td><td>Blends between animations based on a parameter (e.g., speed blends walk→run)</td></tr>
+      <tr><td><strong>State Machine</strong></td><td>Switches between states with defined transitions (idle→walk→run→jump)</td></tr>
+      <tr><td><strong>Layered Blend</strong></td><td>Overlays one animation on another (upper body combat over lower body locomotion)</td></tr>
+      <tr><td><strong>Additive</strong></td><td>Adds an animation on top of another (breathing, aim offset, hit reactions)</td></tr>
+      <tr><td><strong>Selector</strong></td><td>Picks one of several inputs based on a parameter (weapon type selects hold pose)</td></tr>
+      <tr><td><strong>IK Nodes</strong></td><td>Inverse kinematics — feet placement, hand attachment, look-at targets</td></tr>
+      <tr><td><strong>Direct Playback</strong></td><td>Plays a specific animation directly (for special cases like emotes)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Parameters — The Bridge Between Code and Animation</h3>
+
+  <p>Parameters are the values your C# code sends to the AnimGraph. The Citizen model's AnimGraph uses these key parameters:</p>
+
+  <table>
+    <thead>
+      <tr><th>Parameter</th><th>Type</th><th>What It Controls</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>move_x, move_y, move_z</code></td><td>Float</td><td>Movement speed in each axis (absolute units/sec)</td></tr>
+      <tr><td><code>move_speed</code></td><td>Float</td><td>Total movement speed (direction-independent)</td></tr>
+      <tr><td><code>move_groundspeed</code></td><td>Float</td><td>Ground-plane speed (most commonly used)</td></tr>
+      <tr><td><code>duck</code></td><td>Float</td><td>0 = standing, 1 = crouching, 2 = extra low</td></tr>
+      <tr><td><code>holdtype</code></td><td>Int</td><td>Weapon hold type (pistol, rifle, melee, etc.)</td></tr>
+      <tr><td><code>holdtype_attack</code></td><td>Int</td><td>Which attack animation to play</td></tr>
+      <tr><td><code>b_grounded</code></td><td>Bool</td><td>Is the character on the ground?</td></tr>
+      <tr><td><code>voice</code></td><td>Float</td><td>Voice chat volume (animates mouth)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Setting Parameters from Code</h3>
+
+  <pre data-lang="C#"><code><span class="cm">// Using CitizenAnimationHelper (easy way)</span>
+<span class="kw">var</span> helper = Components.<span class="fn">Get</span>&lt;<span class="ty">CitizenAnimationHelper</span>&gt;();
+helper.WithVelocity( cc.Velocity );
+helper.IsGrounded = cc.IsOnGround;
+helper.DuckLevel = Input.<span class="fn">Down</span>( <span class="str">"Duck"</span> ) ? <span class="num">1f</span> : <span class="num">0f</span>;
+
+<span class="cm">// Direct parameter setting (full control)</span>
+<span class="kw">var</span> renderer = Components.<span class="fn">Get</span>&lt;<span class="ty">SkinnedModelRenderer</span>&gt;();
+renderer.<span class="fn">Set</span>( <span class="str">"move_groundspeed"</span>, velocity.Length );
+renderer.<span class="fn">Set</span>( <span class="str">"b_grounded"</span>, isGrounded );
+renderer.<span class="fn">Set</span>( <span class="str">"holdtype"</span>, <span class="num">5</span> ); <span class="cm">// melee_punch</span>
+</code></pre>
+
+  <h3>The Citizen's AnimGraph Structure</h3>
+
+  <p>The built-in Citizen AnimGraph is organized into 5 sections — studying it is the best way to learn:</p>
+
+  <ul>
+    <li><strong>Section 01</strong> — Central poses and animation sources. The holdtype selector that routes to weapon-specific branches.</li>
+    <li><strong>Section 02</strong> — Core locomotion. 2D Blendspaces driven by root motion speed values, ducking, and skidding.</li>
+    <li><strong>Section 03</strong> — Other movement states: jumping, landing, airborne, height scaling, AnimTag assignment.</li>
+    <li><strong>Section 04</strong> — Weapon branches (holdtypes). Each weapon type has its own blend pipeline with IK management, attack additives, and handedness support.</li>
+    <li><strong>Section 05</strong> — Final compositing: Direct Playback → Clothes → Foot IK → Final Pose output.</li>
+  </ul>
+
+  <h3>Three Approaches to AnimGraph</h3>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>1. Extend the Citizen Graph</h4>
+      <p>Add your own weapon holdtypes and states to the existing Citizen AnimGraph. Fastest path, but you're tied to the Citizen skeleton and conventions.</p>
+    </div>
+    <div class="card">
+      <h4>2. Fork the Citizen Graph</h4>
+      <p>Copy the Citizen's AnimGraph and modify it heavily. You keep the proven locomotion system but can reshape everything else.</p>
+    </div>
+    <div class="card">
+      <h4>3. Build from Scratch</h4>
+      <p>Create a completely new AnimGraph for your custom skeleton. Most work, total control. Required if your character isn't humanoid.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CHAPTER 11 ==================== -->
+<section class="chapter" id="ch11">
+  <div class="chapter-number">Chapter 11</div>
+  <h2>Razor UI System</h2>
+
+  <p>S&amp;Box uses <strong>Razor</strong> for UI — if you know HTML and CSS, you already know 80% of it. Razor panels are essentially web pages rendered inside your game.</p>
+
+  <h3>Two Types of UI</h3>
+
+  <div class="comparison">
+    <div class="col sbox">
+      <h4>Screen UI (HUD)</h4>
+      <p>Renders on top of the game view, like a HUD overlay. Health bars, minimaps, crosshairs, menus. Created by adding a <strong>UI → Screen</strong> GameObject.</p>
+    </div>
+    <div class="col sbox">
+      <h4>World UI</h4>
+      <p>Renders in 3D space — floating health bars above enemies, in-world signs, interactive terminals. Created with <strong>UI → World</strong> GameObject.</p>
+    </div>
+  </div>
+
+  <h3>Creating a Simple HUD</h3>
+
+  <p>Create a <code>.razor</code> file in your project's Code folder:</p>
+
+  <pre data-lang="Razor"><code><span class="cm">&lt;!-- HealthHud.razor --&gt;</span>
+@<span class="kw">using</span> Sandbox
+@<span class="kw">using</span> Sandbox.UI
+@inherits PanelComponent
+
+<span class="pr">&lt;root&gt;</span>
+    <span class="pr">&lt;div</span> <span class="at">class</span>=<span class="str">"health-bar"</span><span class="pr">&gt;</span>
+        <span class="pr">&lt;div</span> <span class="at">class</span>=<span class="str">"health-fill"</span>
+             <span class="at">style</span>=<span class="str">"width: @(HealthPercent)%"</span><span class="pr">&gt;&lt;/div&gt;</span>
+    <span class="pr">&lt;/div&gt;</span>
+    <span class="pr">&lt;div</span> <span class="at">class</span>=<span class="str">"health-text"</span><span class="pr">&gt;</span>@Health / @MaxHealth<span class="pr">&lt;/div&gt;</span>
+<span class="pr">&lt;/root&gt;</span>
+
+@code {
+    <span class="kw">float</span> Health =&gt; Components.<span class="fn">Get</span>&lt;<span class="ty">HealthComponent</span>&gt;()?.CurrentHealth ?? <span class="num">0</span>;
+    <span class="kw">float</span> MaxHealth =&gt; Components.<span class="fn">Get</span>&lt;<span class="ty">HealthComponent</span>&gt;()?.MaxHealth ?? <span class="num">100</span>;
+    <span class="kw">float</span> HealthPercent =&gt; (Health / MaxHealth) * <span class="num">100f</span>;
+}
+
+<span class="pr">&lt;style&gt;</span>
+    .health-bar {
+        width: 300px;
+        height: 20px;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    .health-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #ff4444, #44ff44);
+        transition: width 0.3s ease;
+    }
+    .health-text {
+        color: white;
+        font-size: 16px;
+        margin-top: 4px;
+    }
+<span class="pr">&lt;/style&gt;</span>
+</code></pre>
+
+  <div class="callout tip">
+    <div class="callout-title">Razor = HTML + C# + Scoped CSS</div>
+    Each <code>.razor</code> file contains three sections: the HTML template at the top, a <code>@code</code> block with C# logic, and a <code>&lt;style&gt;</code> block with CSS that's automatically scoped to this panel only. If you've ever used Vue.js single-file components, it's the same concept.
+  </div>
+</section>
+
+<!-- ==================== CHAPTER 12 ==================== -->
+<section class="chapter" id="ch12">
+  <div class="chapter-number">Chapter 12</div>
+  <h2>Building Maps with Hammer</h2>
+
+  <p>Hammer is Source 2's built-in level editor — the same tool used to build Counter-Strike 2 and Half-Life: Alyx maps. Open it from <strong>Tools → Hammer</strong>.</p>
+
+  <h3>Hammer vs Scene Editor</h3>
+
+  <p>S&amp;Box has <strong>two ways</strong> to build environments:</p>
+
+  <div class="comparison">
+    <div class="col sbox">
+      <h4>Scene Editor</h4>
+      <p>Place GameObjects, configure components, set up gameplay logic. Best for dynamic game content, prefab placement, and scripted elements.</p>
+    </div>
+    <div class="col sbox">
+      <h4>Hammer Editor</h4>
+      <p>Build level geometry, sculpt terrain, place lights, bake lighting. Best for static environments, architectural spaces, and polished level design.</p>
+    </div>
+  </div>
+
+  <p>Most games use <strong>both together</strong>: build your map geometry in Hammer, then load it into a Scene using a <code>MapInstance</code> component, and add gameplay objects in the Scene Editor.</p>
+
+  <h3>Hammer Editor Layout</h3>
+
+  <ul>
+    <li><strong>Top toolbar</strong> — editing modes: Vertices, Edges, Faces, Meshes, Objects</li>
+    <li><strong>Left toolbar</strong> — modeling and placement tools</li>
+    <li><strong>Center</strong> — 3D Map View for editing</li>
+    <li><strong>Right</strong> — Outliner (object list) and Object Properties</li>
+    <li><strong>Bottom</strong> — Asset Browser with Cloud Browser for community assets</li>
+  </ul>
+
+  <h3>Lighting in Hammer — Your Biggest Visual Advantage</h3>
+
+  <p>Source 2's baked lighting system is the same one that made Half-Life: Alyx look extraordinary. This is genuinely one of the engine's strongest features.</p>
+
+  <h4>Light Types</h4>
+
+  <table>
+    <thead>
+      <tr><th>Light</th><th>Direct</th><th>Indirect</th><th>Shadows</th><th>Cost</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Baked (Static)</strong></td><td>Baked into lightmaps</td><td>Baked + light probes</td><td>Contact hardening, high quality</td><td>Free at runtime</td></tr>
+      <tr><td><strong>Stationary</strong></td><td>Dynamic</td><td>Baked</td><td>Dynamic possible</td><td>Moderate</td></tr>
+      <tr><td><strong>Dynamic</strong></td><td>Fully dynamic</td><td>None</td><td>Fully dynamic</td><td>Expensive</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout tip">
+    <div class="callout-title">Lighting Strategy</div>
+    Bake all environment lighting for stunning quality at zero runtime cost. Reserve dynamic lights for gameplay effects only (muzzle flash, explosions, player flashlight). Limit to <strong>1-2 baked lights per surface</strong> — more than 4 causes artifacts. Use Hammer's "Baked Lighting Complexity" visualization to check.
+  </div>
+
+  <h4>VRAD3 — GPU Ray-Traced Light Baking</h4>
+
+  <p>VRAD3 uses your <strong>GPU's ray tracing hardware</strong> (RTX or RDNA2+) to bake lightmaps. This produces global illumination with realistic light bounces and contact-hardening shadows — the same quality as offline rendering, baked into your map for free at runtime.</p>
+
+  <h3>Map Scale Reference</h3>
+
+  <table>
+    <thead>
+      <tr><th>Measurement</th><th>Units</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1 meter</td><td>~39 units</td></tr>
+      <tr><td>Player eye height</td><td>~64 units</td></tr>
+      <tr><td>Standard door height</td><td>~96 units</td></tr>
+      <tr><td>1 unit</td><td>~1 inch (2.54 cm)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ==================== CHAPTER 13 ==================== -->
+<section class="chapter" id="ch13">
+  <div class="chapter-number">Chapter 13</div>
+  <h2>Advanced Networking</h2>
+
+  <p>Chapter 8 covered the basics. Here's everything you need for production multiplayer games.</p>
+
+  <h3>Lobbies &amp; Connections</h3>
+
+  <pre data-lang="C#"><code><span class="cm">// Create a lobby</span>
+Networking.<span class="fn">CreateLobby</span>( <span class="kw">new</span> <span class="ty">LobbyConfig</span>()
+{
+    MaxPlayers = <span class="num">8</span>,
+    Privacy = LobbyPrivacy.Public,
+    Name = <span class="str">"My Game"</span>
+} );
+
+<span class="cm">// Query available lobbies</span>
+<span class="kw">var</span> lobbies = <span class="kw">await</span> Networking.<span class="fn">QueryLobbies</span>();
+
+<span class="cm">// Join a lobby</span>
+Networking.<span class="fn">Connect</span>( lobbyId );
+</code></pre>
+
+  <h3>Player Spawning Pattern</h3>
+
+  <pre data-lang="C#"><code><span class="kw">public sealed class</span> <span class="ty">GameNetworkManager</span> : <span class="ty">Component</span>, <span class="ty">Component.INetworkListener</span>
+{
+    [<span class="at">Property</span>] <span class="kw">public</span> <span class="ty">GameObject</span> PlayerPrefab { <span class="kw">get</span>; <span class="kw">set</span>; }
+
+    <span class="cm">// Called on the HOST when a player fully connects</span>
+    <span class="kw">public void</span> <span class="fn">OnActive</span>( <span class="ty">Connection</span> connection )
+    {
+        <span class="kw">var</span> player = PlayerPrefab.<span class="fn">Clone</span>( GetSpawnPoint() );
+        player.<span class="fn">NetworkSpawn</span>( connection );
+    }
+}
+</code></pre>
+
+  <h3>Sync Properties — Deep Dive</h3>
+
+  <table>
+    <thead>
+      <tr><th>Attribute</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>[Sync]</code></td><td>Replicates from owner to all clients</td></tr>
+      <tr><td><code>[Sync(SyncFlags.FromHost)]</code></td><td>Only the host can write; all clients receive read-only</td></tr>
+      <tr><td><code>[Sync(SyncFlags.Query)]</code></td><td>Polls the getter every tick instead of relying on setter detection</td></tr>
+      <tr><td><code>[Sync(SyncFlags.Interpolate)]</code></td><td>Smoothly interpolates the value on remote clients</td></tr>
+      <tr><td><code>[Sync, Change("OnHealthChanged")]</code></td><td>Fires a callback when the value changes</td></tr>
+    </tbody>
+  </table>
+
+  <h3>RPC Filtering</h3>
+
+  <pre data-lang="C#"><code><span class="cm">// Send to specific connection only</span>
+<span class="kw">using</span> ( Rpc.<span class="fn">FilterInclude</span>( targetConnection ) )
+    <span class="fn">SendPrivateMessage</span>( <span class="str">"Only you can see this"</span> );
+
+<span class="cm">// Send to everyone except one player</span>
+<span class="kw">using</span> ( Rpc.<span class="fn">FilterExclude</span>( localConnection ) )
+    <span class="fn">PlayThirdPersonAnimation</span>();
+
+<span class="cm">// Send to connections matching a condition</span>
+<span class="kw">using</span> ( Rpc.<span class="fn">FilterInclude</span>( c =&gt; c.Ping &lt; <span class="num">200</span> ) )
+    <span class="fn">SendHighPriorityEvent</span>();
+</code></pre>
+
+  <h3>NetworkOrphaned — What Happens When Players Disconnect</h3>
+
+  <table>
+    <thead>
+      <tr><th>Policy</th><th>Behavior</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>Destroy</code></td><td>Object is destroyed (good for player characters)</td></tr>
+      <tr><td><code>ClearOwner</code></td><td>Owner removed, host takes over</td></tr>
+      <tr><td><code>Host</code></td><td>Ownership transfers to host</td></tr>
+      <tr><td><code>Random</code></td><td>Random remaining player gets ownership</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Dedicated Servers</h3>
+
+  <p>For competitive games, dedicated servers eliminate the "host advantage" (0ms ping):</p>
+
+  <ol>
+    <li>Install SteamCMD</li>
+    <li>Run: <code>./steamcmd +login anonymous +app_update 1892930 validate +quit</code></li>
+    <li>Create a launch script: <code>sbox-server.exe +game yourname.yourgame mapname +hostname "Server Name"</code></li>
+  </ol>
+
+  <div class="callout warning">
+    <div class="callout-title">Security for Competitive Games</div>
+    In Project Settings → Networking, <strong>uncheck all Default Client Permissions</strong> (Client Object Spawning, Refreshing, Destroying). These are enabled by default for convenience, but for PvP games they allow clients to manipulate networked objects — a major exploit vector.
+  </div>
+</section>
+
+<!-- ==================== CHAPTER 14 ==================== -->
+<section class="chapter" id="ch14">
+  <div class="chapter-number">Chapter 14</div>
+  <h2>Performance &amp; Optimization</h2>
+
+  <p>Making your game run well is just as important as making it fun. Here's what matters in Source 2.</p>
+
+  <h3>The Rendering Pipeline</h3>
+
+  <p>Source 2 can comfortably render <strong>1-3 million triangles</strong> on screen on mid-range hardware. But raw poly count is rarely the bottleneck — <strong>draw calls</strong> are. Every unique material on screen is a separate draw call. Reducing material count matters more than reducing triangle count.</p>
+
+  <h3>Culling — How the Engine Avoids Rendering What You Can't See</h3>
+
+  <table>
+    <thead>
+      <tr><th>System</th><th>What It Does</th><th>Your Role</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Frustum Culling</strong></td><td>Hides objects outside camera view</td><td>Automatic — no action needed</td></tr>
+      <tr><td><strong>Occlusion Culling</strong></td><td>Hides objects behind solid geometry</td><td>Automatic — works best in indoor maps</td></tr>
+      <tr><td><strong>Octree Partitioning</strong></td><td>Spatial indexing for fast visibility checks</td><td>Automatic — replaced BSP in Source 2</td></tr>
+      <tr><td><strong>Fade Distance</strong></td><td>Props stop rendering beyond a set distance</td><td>Set per ModelRenderer — use aggressively!</td></tr>
+      <tr><td><strong>LOD System</strong></td><td>Swaps to lower-poly meshes at distance</td><td>Set up LOD groups in ModelDoc</td></tr>
+      <tr><td><strong>Area Portals</strong></td><td>Doors/windows that block visibility</td><td>Place in Hammer for indoor maps</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Server Scalability</h3>
+
+  <table>
+    <thead>
+      <tr><th>Player Count</th><th>Feasibility</th><th>Recommendation</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>2 (1v1 duel)</td><td>Trivial</td><td>No optimization needed</td></tr>
+      <tr><td>10 (5v5 teams)</td><td>Easy</td><td>Default settings work fine</td></tr>
+      <tr><td>16 (FFA)</td><td>Comfortable</td><td>Watch particle/effect counts</td></tr>
+      <tr><td>32</td><td>Achievable</td><td>Minimize [Sync] properties, use LODs</td></tr>
+      <tr><td>64</td><td>Challenging</td><td>Lower tick rate, careful bandwidth management</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Optimization Checklist</h3>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>Models</h4>
+      <p>Use LODs for every prop. Set fade distances on ModelRenderer. Minimize material count. Bake high-poly detail into normal maps.</p>
+    </div>
+    <div class="card">
+      <h4>Textures</h4>
+      <p>Use power-of-two sizes. Reserve 4096 for hero assets only. Atlas small props onto shared texture sheets.</p>
+    </div>
+    <div class="card">
+      <h4>Lighting</h4>
+      <p>Bake everything static. 1-2 baked lights per surface max. Reserve dynamic lights for gameplay effects only.</p>
+    </div>
+    <div class="card">
+      <h4>Networking</h4>
+      <p>Only network what's needed. Use Unreliable RPCs for cosmetic effects. Lower tick rate for larger player counts.</p>
+    </div>
+    <div class="card">
+      <h4>Code</h4>
+      <p>Cache <code>Scene.GetAll()</code> results. Use OnFixedUpdate for physics, OnUpdate for visuals. Check <code>IsProxy</code> early to skip unnecessary work.</p>
+    </div>
+    <div class="card">
+      <h4>Scenes</h4>
+      <p>Use Terrain for outdoor areas. Aggressive fade distances on background props. Area portals for indoor maps.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CHAPTER 15 ==================== -->
+<section class="chapter" id="ch15">
+  <div class="chapter-number">Chapter 15</div>
+  <h2>Resources &amp; Reference</h2>
+
+  <h3>Essential Numbers</h3>
+
+  <table>
+    <thead>
+      <tr><th>Setting</th><th>Default Value</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Physics tick rate (OnFixedUpdate)</td><td><strong>50 Hz</strong></td></tr>
+      <tr><td>Network update rate</td><td><strong>30 Hz</strong></td></tr>
+      <tr><td>Maximum players</td><td><strong>64</strong></td></tr>
+      <tr><td>Maximum texture size</td><td><strong>4096 × 4096</strong></td></tr>
+      <tr><td>Max baked lights per surface</td><td><strong>4</strong> (aim for 1-2)</td></tr>
+      <tr><td>Lightmap tile size</td><td><strong>512 × 512</strong></td></tr>
+      <tr><td>PlayerController Walk priority</td><td><strong>0</strong></td></tr>
+      <tr><td>PlayerController Ladder priority</td><td><strong>5</strong></td></tr>
+      <tr><td>PlayerController Swim priority</td><td><strong>10</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>All Built-in Component Categories</h3>
+
+  <table>
+    <thead>
+      <tr><th>Category</th><th>Key Components</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Movement</strong></td><td>MoveMode - Walk, Swim, Ladder, Sit</td></tr>
+      <tr><td><strong>Physics</strong></td><td>Character Controller, Player Controller, Rigid Body, Colliders (Box/Capsule/Sphere/Hull/Plane), Model Collider, Joints (Ball/Fixed/Hinge/Slider/Spring/Wheel), Physics Filter</td></tr>
+      <tr><td><strong>Rendering</strong></td><td>Model Renderer, Model Renderer (Skinned), Trail Renderer, Line Renderer, Sprite Renderer, Text Renderer, Highlight Outline, Decal</td></tr>
+      <tr><td><strong>Post Processing</strong></td><td>SSAO, Bloom, Blur, Chromatic Aberration, Color Adjustments/Grading, Depth of Field, Film Grain, Motion Blur, SSR, Tone Mapping, Vignette, Pixelate, Post Process Volume</td></tr>
+      <tr><td><strong>Effects</strong></td><td>Beam Effect, Temporary Effect</td></tr>
+      <tr><td><strong>Gameplay</strong></td><td>Button, Cursor Presser, Linear Move</td></tr>
+      <tr><td><strong>Networking</strong></td><td>Network Helper</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Community Resources</h3>
+
+  <ul>
+    <li><strong>Official Docs</strong> — <code>sbox.game/dev/doc</code></li>
+    <li><strong>GitHub</strong> — <code>github.com/Facepunch/sbox-public</code> for source code, issues, and feature tracking</li>
+    <li><strong>S&amp;Box Discord</strong> — the most active community for help and discussion</li>
+    <li><strong>Asset Party</strong> — browse and download community-created content</li>
+    <li><strong>Mintlify Docs</strong> — auto-generated API reference from the public source</li>
+  </ul>
+
+  <h3>Debug Tools</h3>
+
+  <p>Use the <strong>Debug menu</strong> to visualize what's happening at runtime:</p>
+
+  <ul>
+    <li><strong>Show Physics Debug</strong> — renders all physics colliders</li>
+    <li><strong>Show Hitbox Debug</strong> — renders hitbox volumes on models</li>
+    <li><strong>Show Interpolation Debug</strong> — visualizes network interpolation</li>
+    <li><strong>Input Debugger</strong> — shows which inputs are active</li>
+  </ul>
+
+  <div class="callout tip">
+    <div class="callout-title">Final Advice</div>
+    Start small. Make a spinning cube. Then make it respond to input. Then add physics. Then add a second player. Layer complexity one piece at a time. Every game ever shipped was built incrementally — yours will be too.
+  </div>
+</section>
+
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+  <p>The Complete S&amp;Box Guide &bull; Beginner to Intermediate &bull; 15 Chapters &bull; April 2026</p>
+  <p style="margin-top: 0.5rem; color: var(--text-muted);">S&amp;Box is developed by Facepunch. Source 2 is developed by Valve Corporation.</p>
+</footer>
+
+</body>
+</html>
